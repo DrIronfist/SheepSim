@@ -1,9 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class SheepVisualization extends JFrame {
-    private static final int CELL_SIZE = 5; // Size of each cell in pixels
+    private static final int CELL_SIZE = 10; // Size of each cell in pixels
 
     private Environment environment;
 
@@ -20,6 +21,24 @@ public class SheepVisualization extends JFrame {
     @Override
     public void paint(Graphics g) {
         super.paint(g);
+
+         List<Point> sheepPositions = new ArrayList<>();
+        List<Point> predatorPositions = new ArrayList<>();
+
+        // Collect the positions of alive sheep and predators
+        List<Sheep> sheepPopulation = environment.getPopulation();
+        for (Sheep sheep : sheepPopulation) {
+            if (sheep.isAlive()) {
+                sheepPositions.add(new Point(sheep.getX(), sheep.getY()));
+            }
+        }
+
+        List<Predator> predatorPopulation = environment.getPredators();
+        for (Predator predator : predatorPopulation) {
+            if (predator.isAlive()) {
+                predatorPositions.add(new Point(predator.getX(), predator.getY()));
+            }
+        }
 
         // Draw the environment (grid and grass)
         for (int i = 0; i < environment.size; i++) {
@@ -48,7 +67,18 @@ public class SheepVisualization extends JFrame {
                 int y = sheep.getY() * CELL_SIZE + CELL_SIZE / 2;
 
                 // Draw the sheep as a red dot
-                g.setColor(Color.RED);
+                g.setColor(Color.ORANGE);
+                g.fillOval(x - 2, y - 2, 5, 5);
+            }
+        }
+        List<Predator> predators = environment.getPredators();
+        for (Predator predator : predators) {
+            if (predator.isAlive()) {
+                int x = predator.getX() * CELL_SIZE + CELL_SIZE / 2;
+                int y = predator.getY() * CELL_SIZE + CELL_SIZE / 2;
+
+                // Draw the predator as a blue dot
+                g.setColor(Color.BLUE);
                 g.fillOval(x - 2, y - 2, 5, 5);
             }
         }

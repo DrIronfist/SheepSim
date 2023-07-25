@@ -72,11 +72,13 @@ public class Sheep {
         }
     }
 
-    public void eat(Cell cell) {
+    public boolean eat(Cell cell) {
         if (cell.hasGrass()) {
             cell.removeGrass();
             hungerLevel = Math.min(1.0, hungerLevel + 0.3); // Increase hunger level by eating grass
+            return true;
         }
+        return false;
     }
 
     public void decideAction(Cell[][] surroundings) {
